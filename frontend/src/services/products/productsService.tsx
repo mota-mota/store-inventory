@@ -1,5 +1,5 @@
-import {GetProductsParams, InventoryStats, Pagination, Product, ProductsResponse} from "./types";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {GetProductsParams, InventoryStats, Product, ProductsResponse} from "./types";
+import {useCallback, useState} from "react";
 
 const API_BASE_URL = 'http://localhost:8001/api/v1';
 

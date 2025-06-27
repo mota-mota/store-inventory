@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardHeader, CardBody, Button } from "@heroui/react"
-import { Plus, Upload, Download, Users } from "lucide-react"
+import { Plus, Users } from "lucide-react"
 
 const actions = [
   {

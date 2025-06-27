@@ -2,8 +2,8 @@
 
 import { useEffect, useState} from 'react';
 import { ProductsTable } from "@/components/dashboard/ProductsTable"
-import { Button, Card, CardBody, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react"
-import { Plus, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react"
+import { Button, Card, CardBody } from "@heroui/react"
+import { Plus, RefreshCw } from "lucide-react"
 import { useGetProducts } from "@/services/products/productsService"
 import {ProductStats} from "@/components/dashboard/ProductStats";
 import {ProductFilters} from "@/components/dashboard/ProductFilters";
@@ -62,7 +62,7 @@ export default function ProductsPage() {
         <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-4">
           <Button 
             variant="light" 
-            onClick={() => {}}
+            onPress={() => {}}
             startContent={<RefreshCw size={18} className={loading ? 'animate-spin' : ''} />}
             isDisabled={loading}
             className="sm:order-2"
@@ -73,7 +73,7 @@ export default function ProductsPage() {
             color="primary" 
             startContent={<Plus size={18} />} 
             className="btn-brand sm:order-1"
-            onClick={() => {/* TODO: Implement create product */}}
+            onPress={() => {/* TODO: Implement create product */}}
           >
             <span className="hidden sm:inline">Nuevo Producto</span>
             <span className="sm:hidden">Nuevo</span>
@@ -106,7 +106,7 @@ export default function ProductsPage() {
               <p className="text-red-600 mb-4">Error al cargar los productos: {error}</p>
               <Button 
                 variant="light" 
-                onClick={() => {}}
+                onPress={() => {}}
                 startContent={<RefreshCw size={16} className={loading ? 'animate-spin' : ''} />}
                 disabled={loading}
               >

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Card, CardBody, Button } from "@heroui/react"
 import { Package, TrendingUp, AlertTriangle, RefreshCw } from "lucide-react"
 import { motion } from "framer-motion"
@@ -29,11 +29,6 @@ const statConfigs = [
     bgColor: "bg-orange-100",
   },
 ]
-
-interface ProductStatsProps {
-  onRefresh?: () => void;
-  isRefreshing?: boolean;
-}
 
 export function ProductStats() {
   const { 

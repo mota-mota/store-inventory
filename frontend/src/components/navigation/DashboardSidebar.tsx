@@ -73,13 +73,13 @@ export function DashboardSidebar() {
           </AnimatePresence>
 
           {!isMobile && (
-            <Button isIconOnly variant="light" size="sm" onClick={() => setIsCollapsed(!isCollapsed)}>
+            <Button isIconOnly variant="light" size="sm" onPress={() => setIsCollapsed(!isCollapsed)}>
               {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
             </Button>
           )}
 
           {isMobile && (
-            <Button isIconOnly variant="light" size="sm" onClick={() => setIsMobileOpen(false)}>
+            <Button isIconOnly variant="light" size="sm" onPress={() => setIsMobileOpen(false)}>
               <X size={16} />
             </Button>
           )}
@@ -169,7 +169,7 @@ export function DashboardSidebar() {
           isIconOnly
           variant="light"
           className="fixed top-4 left-4 z-50 lg:hidden bg-white shadow-md"
-          onClick={() => setIsMobileOpen(true)}
+          onPress={() => setIsMobileOpen(true)}
         >
           <Menu size={20} />
         </Button>

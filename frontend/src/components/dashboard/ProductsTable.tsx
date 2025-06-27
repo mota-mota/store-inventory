@@ -206,7 +206,7 @@ export function ProductsTable({
                                     isIconOnly
                                     variant="light"
                                     size="sm"
-                                    onClick={() => onPageChange(currentPage - 1)}
+                                    onPress={() => onPageChange(currentPage - 1)}
                                     isDisabled={!pagination.hasPreviousPage || isLoading}
                                 >
                                     <ChevronLeft size={16} />
@@ -230,7 +230,7 @@ export function ProductsTable({
                                                 key={pageNum}
                                                 variant={pageNum === currentPage ? "solid" : "light"}
                                                 size="sm"
-                                                onClick={() => onPageChange(pageNum)}
+                                                onPress={() => onPageChange(pageNum)}
                                                 className={`min-w-[32px] ${pageNum === currentPage ? 'bg-blue-600 text-white' : ''}`}
                                                 isDisabled={isLoading}
                                             >
@@ -244,7 +244,7 @@ export function ProductsTable({
                                     isIconOnly
                                     variant="light"
                                     size="sm"
-                                    onClick={() => onPageChange(currentPage + 1)}
+                                    onPress={() => onPageChange(currentPage + 1)}
                                     isDisabled={!pagination.hasNextPage || isLoading}
                                 >
                                     <ChevronRight size={16} />
