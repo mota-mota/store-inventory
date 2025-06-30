@@ -17,9 +17,10 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { useAuth } from "@/context/AuthContext"
+import LogoutBtn from "@/components/auth/Logout";
 
 export function DashboardSidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(true)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const pathname = usePathname()
@@ -56,7 +57,6 @@ export function DashboardSidebar() {
 
   const sidebarContent = (
     <div className="flex flex-col h-full">
-      {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <AnimatePresence>
@@ -86,7 +86,6 @@ export function DashboardSidebar() {
         </div>
       </div>
 
-      {/* User Profile */}
       <div className="p-4">
         <div className="flex items-center space-x-3">
           <Avatar src="/placeholder.svg?height=40&width=40" size="md" className="flex-shrink-0" />
@@ -145,19 +144,7 @@ export function DashboardSidebar() {
       </nav>
 
       <div className="p-4 border-t border-gray-200">
-        <Button
-          variant="light"
-          startContent={<LogOut size={20} />}
-          className={`w-full justify-start text-gray-700 hover:text-red-600 ${isCollapsed && !isMobile ? "px-0" : ""}`}
-        >
-          <AnimatePresence>
-            {(!isCollapsed || isMobile) && (
-              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                Cerrar Sesión
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </Button>
+        <LogoutBtn isMobile={isMobile} isCollapsed={isCollapsed} />
       </div>
     </div>
   )
@@ -174,7 +161,7 @@ export function DashboardSidebar() {
           <Menu size={20} />
         </Button>
 
-        {/* Mobile Overlay */}
+        {/* Para mobile */}
         <AnimatePresence>
           {isMobileOpen && (
             <>

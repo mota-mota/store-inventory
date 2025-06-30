@@ -69,10 +69,6 @@ export function LoginForm() {
         />
       </div>
 
-      <div className="flex items-center justify-between">
-        <Checkbox size="sm">Recordarme</Checkbox>
-      </div>
-
       {error && <div className="text-red-500 text-sm text-center">{error}</div>}
 
       <Button type="submit" className="w-full btn-brand" size="lg" isLoading={isLoading}>

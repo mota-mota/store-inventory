@@ -53,3 +53,29 @@ export interface GetProductsParams {
   isActive?: boolean;
   status?: ProductStatus;
 }
+
+export interface CreateProductData {
+  name: string;
+  description?: string | null;
+  price: number;
+  quantity?: number;
+  SKU?: string | null;
+  categoryId: number;
+  image?: string | null;
+}
+
+export interface ValidationError {
+  message: string;
+  input: {
+    label: string;
+    key: string;
+  };
+}
+
+// Add this interface near the top of the file with other types
+export interface ApiResponse<T> {
+  status: boolean;
+  message: string;
+  errors?: ValidationError[];
+  data: T;
+}

@@ -27,6 +27,7 @@ interface ProductsTableProps {
     onPageChange: (page: number) => void;
     onItemsPerPageChange: (limit: number) => void;
     isLoading?: boolean;
+    handleEdit: (product: Product) => void;
 }
 
 export function ProductsTable({ 
@@ -36,7 +37,8 @@ export function ProductsTable({
     itemsPerPage, 
     onPageChange, 
     onItemsPerPageChange,
-    isLoading = false 
+    isLoading = false,
+    handleEdit
 }: ProductsTableProps) {
     const getStatusColor = (isActive: boolean) => {
         return isActive ? "success" : "danger";
@@ -47,6 +49,8 @@ export function ProductsTable({
         if (stock < 20) return "warning";
         return "success";
     }
+
+
 
     return (
         <Card>
@@ -71,11 +75,11 @@ export function ProductsTable({
                                 </div>
                             ) : products.map((product) => (
                                 <div key={product.id} className="p-4 lg:px-6 hover:bg-gray-50 transition-colors">
-                                    {/* Mobile Layout */}
+                                    {/* Para mobile */}
                                     <div className="md:hidden space-y-3">
                                         <div className="flex items-start justify-between">
                                             <div className="flex items-center space-x-3 flex-1">
-                                                <Avatar src={product.image || "/placeholder.svg"} size="sm" />
+                                                <div className="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full"></div>
                                                 <div className="min-w-0 flex-1">
                                                     <h3 className="font-medium text-gray-900 truncate">{product.name}</h3>
                                                     <p className="text-sm text-gray-600">{product.category.name}</p>
@@ -88,10 +92,7 @@ export function ProductsTable({
                                                     </Button>
                                                 </DropdownTrigger>
                                                 <DropdownMenu aria-label="Acciones del producto">
-                                                    <DropdownItem key="view" startContent={<Eye size={16} />}>
-                                                        Ver detalles
-                                                    </DropdownItem>
-                                                    <DropdownItem key="edit" startContent={<Edit size={16} />}>
+                                                    <DropdownItem key="edit" startContent={<Edit size={16} />} onPress={() => handleEdit(product)}>
                                                         Editar
                                                     </DropdownItem>
                                                     <DropdownItem
@@ -108,7 +109,7 @@ export function ProductsTable({
 
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center space-x-3">
-                                                <p className="text-sm text-gray-900">${product.price}</p>
+                                                <p className="text-sm text-gray-900">Q{product.price}</p>
                                                 <Chip color={getStockColor(product.quantity || 0)} size="sm">
                                                     {product.quantity || 0} en stock
                                                 </Chip>
@@ -121,13 +122,13 @@ export function ProductsTable({
 
                                     <div className="hidden md:grid grid-cols-6 gap-4 items-center">
                                         <div className="flex items-center space-x-3">
-                                            <Avatar src={product.image || "/placeholder.svg"} size="sm" />
+                                            <div className="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full"></div>
                                             <span className="font-medium text-gray-900">{product.name}</span>
                                         </div>
 
                                         <div className="text-sm text-gray-600">{product.category?.name || 'Sin categoría'}</div>
 
-                                        <div className="text-sm text-gray-900">${product.price}</div>
+                                        <div className="text-sm text-gray-900">Q{product.price}</div>
 
                                         <div>
                                             <Chip color={getStockColor(product.quantity || 0)} size="sm">
@@ -149,10 +150,7 @@ export function ProductsTable({
                                                     </Button>
                                                 </DropdownTrigger>
                                                 <DropdownMenu aria-label="Acciones del producto">
-                                                    <DropdownItem key="view" startContent={<Eye size={16} />}>
-                                                        Ver detalles
-                                                    </DropdownItem>
-                                                    <DropdownItem key="edit" startContent={<Edit size={16} />}>
+                                                    <DropdownItem key="edit" startContent={<Edit size={16} />} onPress={() => handleEdit(product)}>
                                                         Editar
                                                     </DropdownItem>
                                                     <DropdownItem

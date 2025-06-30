@@ -43,7 +43,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     await axios.post("http://localhost:8001/api/v1/logout", {}, { withCredentials: true });
     setUser(null);
-    router.push("/login");
   };
 
   return (

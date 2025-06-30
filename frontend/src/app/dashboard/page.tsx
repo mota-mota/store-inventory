@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { QuickActions } from "@/components/dashboard/QuickActions"
+import {ProductStats} from "@/components/dashboard/product/ProductStats";
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
@@ -28,14 +29,7 @@ export default function DashboardPage() {
         <p className="text-gray-600 mt-2">Bienvenido de vuelta, {user.username}</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          Actividades recientes
-        </div>
-        <div>
-          <QuickActions />
-        </div>
-      </div>
+      <ProductStats />
     </div>
   );
 }

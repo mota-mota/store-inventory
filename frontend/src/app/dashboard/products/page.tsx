@@ -1,13 +1,14 @@
 "use client"
 
 import { useEffect, useState} from 'react';
-import { ProductsTable } from "@/components/dashboard/ProductsTable"
-import { Button, Card, CardBody } from "@heroui/react"
+import { ProductsTable } from "@/components/dashboard/product/ProductsTable"
+import {Button, Card, CardBody, useDisclosure} from "@heroui/react"
 import { Plus, RefreshCw } from "lucide-react"
 import { useGetProducts } from "@/services/products/productsService"
-import {ProductStats} from "@/components/dashboard/ProductStats";
-import {ProductFilters} from "@/components/dashboard/ProductFilters";
-import {GetProductsParams, Pagination, ProductStatus} from "@/services/products/types";
+import {ProductStats} from "@/components/dashboard/product/ProductStats";
+import {ProductFilters} from "@/components/dashboard/product/ProductFilters";
+import {GetProductsParams, Pagination, Product, ProductStatus} from "@/services/products/types";
+import {CreateProduct} from "@/components/dashboard/product/CreateProduct";
 
 export default function ProductsPage() {
   const [pagination, setPagination] = useState<Pagination>({
@@ -32,7 +33,7 @@ export default function ProductsPage() {
   } = useGetProducts();
 
   const handleFetchProducts = async (params: GetProductsParams) => {
-    const { page, limit, ...filters } = params;
+    const {page, limit, ...filters} = params;
     const data = await fetchProducts({
       ...params,
       status: params.status === 'all' ? undefined : params.status
@@ -52,6 +53,17 @@ export default function ProductsPage() {
     });
   }, []);
 
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    if (currentProduct?.id) {
+      if (!isOpen) onOpen();
+    }
+  }, [currentProduct, isOpen]);
+
+  const [id, setId] = useState<number | null>(null);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -62,7 +74,9 @@ export default function ProductsPage() {
         <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-4">
           <Button 
             variant="light" 
-            onPress={() => {}}
+            onPress={() => {
+              handleFetchProducts({});
+            }}
             startContent={<RefreshCw size={18} className={loading ? 'animate-spin' : ''} />}
             isDisabled={loading}
             className="sm:order-2"
@@ -73,7 +87,7 @@ export default function ProductsPage() {
             color="primary" 
             startContent={<Plus size={18} />} 
             className="btn-brand sm:order-1"
-            onPress={() => {/* TODO: Implement create product */}}
+            onPress={() => onOpen()}
           >
             <span className="hidden sm:inline">Nuevo Producto</span>
             <span className="sm:hidden">Nuevo</span>
@@ -81,12 +95,28 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* Stats */}
+      <CreateProduct
+        isOpen={isOpen}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) {
+            setCurrentProduct(null);
+          }
+          onOpenChange(isOpen);
+        }}
+        product={currentProduct}
+        callback={(product) => {
+          setCurrentProduct(product);
+          if (!product) {
+            onOpenChange(false);
+          }
+        }}
+      />
+
       <ProductStats />
 
       <ProductFilters onFilterChange={(filters) => {
         handleFetchProducts({
-          page: pagination.currentPage,
+          page: 1,
           limit: pagination.itemsPerPage,
           search: filters.search,
           status: filters.status,
@@ -129,6 +159,9 @@ export default function ProductsPage() {
                 }}
                 onItemsPerPageChange={(itemsPerPage) => setPagination((prev) => ({ ...prev, itemsPerPage }))}
                 isLoading={loading}
+                handleEdit={(product: Product) => {
+                  setCurrentProduct(product);
+                }}
               />
             </>
           )}

@@ -14,7 +14,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <DashboardSidebar />
-      <div className="lg:pl-80">
+      <div className="main-dashboard">
         <DashboardHeader />
         <motion.main
           className="p-4 lg:p-6"
