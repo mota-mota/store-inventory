@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import {Button} from "@heroui/react";
+import { Button } from '@heroui/react';
 
 import { StoreHeader } from '@/components/store/navigation/StoreHeader';
 import { StoreFooter } from '@/components/store/navigation/StoreFooter';
 import { ProductCard } from '@/components/store/product/ProductCard';
 import ProductSkeleton from '@/components/store/product/ProductSkeleton';
-import {useGetProducts} from "@/services/products/productsService";
-import {useEffect, useState} from "react";
-import {GetProductsParams, Product} from "@/services/products/types";
+import { useGetProducts } from '@/services/products/productsService';
+import { useEffect, useState } from 'react';
+import { GetProductsParams, Product } from '@/services/products/types';
 
 const INITIAL_FILTERS: GetProductsParams = {
-    page: 1,
-    limit: 12,
-    status: 'active',
-    inStock: true
-}
+  page: 1,
+  limit: 12,
+  status: 'active',
+  inStock: true,
+};
 
 export default function Home() {
   const { loading, error, response: products, fetchProducts, paginationInfo } = useGetProducts();
@@ -29,10 +29,10 @@ export default function Home() {
   const handleLoadProducts = (filters: GetProductsParams) => {
     fetchProducts(filters);
     setCrrFilters(filters);
-  }
+  };
 
   useEffect(() => {
-    if(!loading && products) {
+    if (!loading && products) {
       setProducts(prev => [...prev, ...products]);
     }
   }, [products]);
@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <StoreHeader />
-      
+
       <main className="flex-grow">
         <section className="bg-primary-50 py-12">
           <div className="container mx-auto px-4">
@@ -64,12 +64,10 @@ export default function Home() {
               </div>
             ) : error ? (
               <div className="text-center py-10">
-                <p className="text-red-500">Error al cargar los productos. Por favor, intente de nuevo más tarde.</p>
-                <Button 
-                  color="primary" 
-                  className="mt-4"
-                  onPress={() => window.location.reload()}
-                >
+                <p className="text-red-500">
+                  Error al cargar los productos. Por favor, intente de nuevo más tarde.
+                </p>
+                <Button color="primary" className="mt-4" onPress={() => window.location.reload()}>
                   Reintentar
                 </Button>
               </div>
@@ -78,7 +76,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {allProducts?.map((product: Product) => (
                     <ProductCard
-                      key={product.id+product.SKU}
+                      key={product.id + product.SKU}
                       id={product.id}
                       name={product.name}
                       price={product.price.toString()}
@@ -89,19 +87,21 @@ export default function Home() {
                 </div>
                 <div className="mt-10 text-center">
                   {paginationInfo && paginationInfo.hasNextPage ? (
-                      <Button
-                          color="primary"
-                          size="lg"
-                          className="font-medium"
-                          onPress={() => handleLoadProducts({
-                            ...crrFilters,
-                            page: (crrFilters?.page || 1) + 1
-                          })}
-                      >
-                        Ver más productos
-                      </Button>
+                    <Button
+                      color="primary"
+                      size="lg"
+                      className="font-medium"
+                      onPress={() =>
+                        handleLoadProducts({
+                          ...crrFilters,
+                          page: (crrFilters?.page || 1) + 1,
+                        })
+                      }
+                    >
+                      Ver más productos
+                    </Button>
                   ) : (
-                      <p className="text-foreground-600">No hay más productos</p>
+                    <p className="text-foreground-600">No hay más productos</p>
                   )}
                 </div>
               </>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Facebook, Instagram } from 'lucide-react';
 import { Button, Divider } from '@heroui/react';
-import Image from "next/image";
+import Image from 'next/image';
 
 const footerLinks = [
   {
@@ -35,7 +35,7 @@ const footerLinks = [
 
 export const StoreFooter = () => {
   const currentYear = new Date().getFullYear();
-  
+
   return (
     <footer className="bg-foreground text-background mt-12">
       <div className="container mx-auto px-4 py-12">
@@ -43,23 +43,23 @@ export const StoreFooter = () => {
           <div className="col-span-1">
             <h2 className="text-2xl font-bold mb-4">
               <Image
-                  src="/CemacoAzulFooter.png"
-                  alt="Cemaco Logo"
-                  width={120}
-                  height={64}
-                  className="max-w-35"
-                  priority
+                src="/CemacoAzulFooter.png"
+                alt="Cemaco Logo"
+                width={120}
+                height={64}
+                className="max-w-35"
+                priority
               />
             </h2>
             <p className="text-foreground-500">
               Encuentra los mejores productos para tu hogar a los mejores precios.
             </p>
           </div>
-          {footerLinks.map((section) => (
+          {footerLinks.map(section => (
             <div key={section.title}>
               <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
               <ul className="space-y-2">
-                {section.links.map((link) => (
+                {section.links.map(link => (
                   <li key={link.name}>
                     <Button
                       as={Link}

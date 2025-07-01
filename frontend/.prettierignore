@@ -1,0 +1,14 @@
+.next
+node_modules
+public
+build
+out
+*.md
+*.mdx
+*.html
+*.css
+*.scss
+*.json
+*.yaml
+*.yml
+*.svg

@@ -1,8 +1,8 @@
-"use client";
-import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { User } from "@/types/user";
+'use client';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { User } from '@/types/user';
 
 interface AuthContextType {
   user: User | null;
@@ -22,9 +22,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await axios.post("http://localhost:8001/api/v1/profile", {}, {
-          withCredentials: true,
-        });
+        const res = await axios.post(
+          'http://localhost:8001/api/v1/profile',
+          {},
+          {
+            withCredentials: true,
+          }
+        );
 
         setUser(res.data.data);
       } catch {
@@ -42,13 +46,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    await axios.post("http://localhost:8001/api/v1/logout", {}, { withCredentials: true });
+    await axios.post('http://localhost:8001/api/v1/logout', {}, { withCredentials: true });
     setUser(null);
   };
 
   useEffect(() => {
-    if(!loading) {
-      setIsAdmin(user?.role?.name === "admin");
+    if (!loading) {
+      setIsAdmin(user?.role?.name === 'admin');
     }
   }, [loading, user]);
 

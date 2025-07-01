@@ -1,22 +1,22 @@
-"use client"
+'use client';
 
-import { Card, CardHeader, CardBody, Button } from "@heroui/react"
-import { Plus, Users } from "lucide-react"
+import { Card, CardHeader, CardBody, Button } from '@heroui/react';
+import { Plus, Users } from 'lucide-react';
 
 const actions = [
   {
-    title: "Agregar Producto",
-    description: "Añadir nuevo producto al inventario",
+    title: 'Agregar Producto',
+    description: 'Añadir nuevo producto al inventario',
     icon: Plus,
-    color: "btn-brand",
+    color: 'btn-brand',
   },
   {
-    title: "Gestionar Usuarios",
-    description: "Administrar usuarios del sistema",
+    title: 'Gestionar Usuarios',
+    description: 'Administrar usuarios del sistema',
     icon: Users,
-    color: "btn-brand-secondary",
+    color: 'btn-brand-secondary',
   },
-]
+];
 
 export function QuickActions() {
   return (
@@ -25,8 +25,8 @@ export function QuickActions() {
         <h3 className="text-lg font-semibold">Acciones Rápidas</h3>
       </CardHeader>
       <CardBody className="space-y-3">
-        {actions.map((action) => {
-          const Icon = action.icon
+        {actions.map(action => {
+          const Icon = action.icon;
           return (
             <Button
               key={action.title}
@@ -39,9 +39,9 @@ export function QuickActions() {
                 <div className="text-xs text-gray-600">{action.description}</div>
               </div>
             </Button>
-          )
+          );
         })}
       </CardBody>
     </Card>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import { LoginForm } from "@/components/auth/LoginForm"
-import { Card, CardBody } from "@heroui/react"
-import Link from "next/link"
-import "./style.css"
-import Image from "next/image";
+import { LoginForm } from '@/components/auth/LoginForm';
+import { Card, CardBody } from '@heroui/react';
+import Link from 'next/link';
+import './style.css';
+import Image from 'next/image';
 
 export default function LoginPage() {
   return (
@@ -11,12 +11,12 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
             <Image
-                src="/CemacoAzulFooter.png"
-                alt="Cemaco Logo"
-                width={150}
-                height={80}
-                className="max-w-35"
-                priority
+              src="/CemacoAzulFooter.png"
+              alt="Cemaco Logo"
+              width={150}
+              height={80}
+              className="max-w-35"
+              priority
             />
           </Link>
           <p className="text-gray-600 mt-2">Inicia sesión en tu cuenta</p>
@@ -29,5 +29,5 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

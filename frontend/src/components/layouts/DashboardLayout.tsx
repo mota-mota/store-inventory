@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { DashboardSidebar } from "@/components/navigation/DashboardSidebar"
-import { DashboardHeader } from "../navigation/DashboardHeader"
-import { motion } from "framer-motion"
+import { DashboardSidebar } from '@/components/navigation/DashboardSidebar';
+import { DashboardHeader } from '../navigation/DashboardHeader';
+import { motion } from 'framer-motion';
 
 interface DashboardLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -26,5 +26,5 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </motion.main>
       </div>
     </div>
-  )
+  );
 }

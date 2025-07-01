@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { Input, Button } from "@heroui/react"
-import { Search, X } from "lucide-react"
-import { useState, useCallback } from "react"
+import { Input, Button } from '@heroui/react';
+import { Search, X } from 'lucide-react';
+import { useState, useCallback } from 'react';
 
 type ProductStatus = 'all' | 'active' | 'inactive';
 
@@ -22,10 +22,7 @@ const STATUS_OPTIONS: StatusOption[] = [
   { key: 'inactive', label: 'Inactivo' },
 ];
 
-export function ProductFilters({ 
-  onFilterChange, 
-  className = '' 
-}: ProductFiltersProps) {
+export function ProductFilters({ onFilterChange, className = '' }: ProductFiltersProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<ProductStatus>('all');
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -40,7 +37,7 @@ export function ProductFilters({
     const timeout = setTimeout(() => {
       onFilterChange({
         search: value,
-        status: selectedStatus
+        status: selectedStatus,
       });
     }, 300);
 
@@ -51,33 +48,35 @@ export function ProductFilters({
     setSelectedStatus(status);
     onFilterChange({
       search: searchTerm,
-      status
+      status,
     });
-  }
+  };
 
   const clearFilters = useCallback(() => {
     setSearchTerm('');
     setSelectedStatus('all');
     onFilterChange({
       search: '',
-      status: 'all'
+      status: 'all',
     });
   }, []);
 
   const hasActiveFilters = searchTerm || selectedStatus !== 'all';
 
   return (
-    <div className={`flex flex-row flex-wrap gap-4 p-4 bg-white rounded-lg border border-gray-200 ${className}`}>
+    <div
+      className={`flex flex-row flex-wrap gap-4 p-4 bg-white rounded-lg border border-gray-200 ${className}`}
+    >
       <div className="relative w-full md:w-1/2">
-        <Input 
-          placeholder="Buscar productos..." 
+        <Input
+          placeholder="Buscar productos..."
           startContent={<Search size={20} className="text-gray-400" />}
           value={searchTerm}
-          onChange={(e) => handleSearchChange(e.target.value)}
+          onChange={e => handleSearchChange(e.target.value)}
           aria-label="Buscar productos"
         />
         {searchTerm && (
-          <button 
+          <button
             onClick={() => setSearchTerm('')}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
             aria-label="Limpiar búsqueda"
@@ -92,14 +91,14 @@ export function ProductFilters({
           <span className="text-sm font-medium text-gray-700 whitespace-nowrap">
             Filtrar por estado:
           </span>
-          {STATUS_OPTIONS.map((status) => (
+          {STATUS_OPTIONS.map(status => (
             <Button
               key={status.key}
               size="sm"
               variant={selectedStatus === status.key ? 'solid' : 'bordered'}
               className={`transition-colors ${
-                selectedStatus === status.key 
-                  ? 'bg-brand-primary/10 text-brand-primary border hover:bg-brand-600' 
+                selectedStatus === status.key
+                  ? 'bg-brand-primary/10 text-brand-primary border hover:bg-brand-600'
                   : 'hover:bg-gray-100'
               }`}
               onPress={() => handleStatusChange(status.key)}
@@ -112,8 +111,8 @@ export function ProductFilters({
         </div>
 
         {hasActiveFilters && (
-          <Button 
-            variant="light" 
+          <Button
+            variant="light"
             onPress={clearFilters}
             size="sm"
             startContent={<X size={16} />}

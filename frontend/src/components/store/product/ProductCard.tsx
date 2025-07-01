@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Button, Card, CardBody, CardFooter } from "@heroui/react";
-import { ShoppingCart, Star, ShoppingBasket } from "lucide-react";
+import { Button, Card, CardBody, CardFooter } from '@heroui/react';
+import { ShoppingCart, Star, ShoppingBasket } from 'lucide-react';
 
 interface ProductCardProps {
   id: number;
@@ -43,7 +43,7 @@ export const ProductCard = ({
         </Link>
         <div className="flex items-center mb-3 w-full">
           <div className="flex items-center">
-            {[1, 2, 3, 4, 5].map((star) => (
+            {[1, 2, 3, 4, 5].map(star => (
               <Star
                 key={star}
                 className={`h-4 w-4 ${

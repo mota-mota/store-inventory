@@ -5,10 +5,10 @@ import {
   InventoryStats,
   PaginationInfo,
   Product,
-  ProductsResponse
-} from "./types";
-import {useCallback, useState} from "react";
-import axios from "axios";
+  ProductsResponse,
+} from './types';
+import { useCallback, useState } from 'react';
+import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8001/api/v1';
 
@@ -30,7 +30,7 @@ export const getInventoryStats = async (): Promise<InventoryStats> => {
   if (data.status && data.data) {
     return data.data;
   }
-  
+
   throw new Error(data.message || 'Error al procesar la respuesta del servidor');
 };
 
@@ -39,14 +39,14 @@ export const getInventoryStats = async (): Promise<InventoryStats> => {
  */
 export const getProducts = async (params: GetProductsParams = {}): Promise<ProductsResponse> => {
   const { page = 1, limit = 10, ...filters } = params;
-  
+
   const queryParams = new URLSearchParams({
     page: page.toString(),
     limit: limit.toString(),
     ...(filters.search && { search: filters.search }),
     ...(filters.categoryId && { categoryId: filters.categoryId.toString() }),
     ...(filters.status && { status: filters.status }),
-    ...(typeof filters.isActive === 'boolean' && { isActive: filters.isActive.toString() })
+    ...(typeof filters.isActive === 'boolean' && { isActive: filters.isActive.toString() }),
   });
 
   const response = await fetch(`${API_BASE_URL}/products?${queryParams}`, {
@@ -66,7 +66,7 @@ export const getProducts = async (params: GetProductsParams = {}): Promise<Produ
   if (data.status && data.data) {
     return data.data;
   }
-  
+
   throw new Error(data.message || 'Error al procesar la respuesta del servidor');
 };
 
@@ -95,11 +95,11 @@ export const useProductStats = () => {
     }
   }, []);
 
-  return { 
+  return {
     response: stats,
-    loading, 
-    error, 
-    fetchStats
+    loading,
+    error,
+    fetchStats,
   };
 };
 
@@ -115,10 +115,10 @@ export const useGetProducts = () => {
       setError(null);
 
       const data = await getProducts(customParams);
-      
+
       setProducts(data.products);
       setPaginationInfo(data.pagination);
-      
+
       return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
@@ -135,31 +135,31 @@ export const useGetProducts = () => {
     loading: isLoading,
     error,
     fetchProducts,
-    paginationInfo
+    paginationInfo,
   };
 };
 
-
-
 // Update the createProductService function
-const createProductService = async (productData: CreateProductData): Promise<ApiResponse<Product>> => {
+const createProductService = async (
+  productData: CreateProductData
+): Promise<ApiResponse<Product>> => {
   try {
     const response = await axios.post<ApiResponse<Product>>(
-        `${API_BASE_URL}/products`,
-        {
-          name: productData.name,
-          description: productData.description,
-          price: productData.price,
-          quantity: productData.quantity,
-          SKU: productData.SKU,
-          categoryId: productData.categoryId
+      `${API_BASE_URL}/products`,
+      {
+        name: productData.name,
+        description: productData.description,
+        price: productData.price,
+        quantity: productData.quantity,
+        SKU: productData.SKU,
+        categoryId: productData.categoryId,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          withCredentials: true
-        }
+        withCredentials: true,
+      }
     );
 
     if (!response.data.status) {
@@ -170,11 +170,11 @@ const createProductService = async (productData: CreateProductData): Promise<Api
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
-          typeof error.response?.data === 'object' &&
-          error.response.data !== null &&
-          'message' in error.response.data
-              ? String(error.response.data.message)
-              : 'Error al crear el producto';
+        typeof error.response?.data === 'object' &&
+        error.response.data !== null &&
+        'message' in error.response.data
+          ? String(error.response.data.message)
+          : 'Error al crear el producto';
       const customError: any = new Error(errorMessage);
       customError.response = error.response;
       throw customError;
@@ -216,7 +216,10 @@ export const useCreateProduct = () => {
 };
 
 // Update product service
-const updateProductService = async (productId: number, productData: Partial<CreateProductData>): Promise<ApiResponse<Product>> => {
+const updateProductService = async (
+  productId: number,
+  productData: Partial<CreateProductData>
+): Promise<ApiResponse<Product>> => {
   try {
     const response = await axios.put<ApiResponse<Product>>(
       `${API_BASE_URL}/products/${productId}`,
@@ -226,13 +229,13 @@ const updateProductService = async (productId: number, productData: Partial<Crea
         price: productData.price,
         quantity: productData.quantity,
         SKU: productData.SKU,
-        categoryId: productData.categoryId
+        categoryId: productData.categoryId,
       },
       {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        withCredentials: true
+        withCredentials: true,
       }
     );
 
@@ -296,9 +299,9 @@ const deleteProductService = async (productId: number): Promise<ApiResponse<null
       `${API_BASE_URL}/products/${productId}`,
       {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        withCredentials: true
+        withCredentials: true,
       }
     );
 

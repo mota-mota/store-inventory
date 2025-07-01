@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { Button } from "@heroui/react";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import Image from 'next/image';
+import { Button } from '@heroui/react';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export default function CategoriesPage() {
   return (

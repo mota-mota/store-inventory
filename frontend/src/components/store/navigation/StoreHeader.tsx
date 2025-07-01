@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { User, Search } from 'lucide-react';
 import { Button, Input } from '@heroui/react';
-import Image from "next/image";
+import Image from 'next/image';
 
 export const StoreHeader = () => {
   return (

@@ -1,42 +1,37 @@
-"use client"
+'use client';
 
 import { useEffect } from 'react';
-import { Card, CardBody, Button } from "@heroui/react"
-import { Package, TrendingUp, AlertTriangle, RefreshCw } from "lucide-react"
-import { motion } from "framer-motion"
-import { useProductStats } from "@/services/products/productsService"
+import { Card, CardBody, Button } from '@heroui/react';
+import { Package, TrendingUp, AlertTriangle, RefreshCw } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useProductStats } from '@/services/products/productsService';
 
 const statConfigs = [
   {
     key: 'totalProducts',
-    title: "Total Productos",
+    title: 'Total Productos',
     icon: Package,
-    color: "text-blue-600",
-    bgColor: "bg-blue-100",
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-100',
   },
   {
     key: 'activeProducts',
-    title: "Productos Activos",
+    title: 'Productos Activos',
     icon: TrendingUp,
-    color: "text-green-600",
-    bgColor: "bg-green-100",
+    color: 'text-green-600',
+    bgColor: 'bg-green-100',
   },
   {
     key: 'lowStockCount',
-    title: "Stock Bajo",
+    title: 'Stock Bajo',
     icon: AlertTriangle,
-    color: "text-orange-600",
-    bgColor: "bg-orange-100",
+    color: 'text-orange-600',
+    bgColor: 'bg-orange-100',
   },
-]
+];
 
 export function ProductStats() {
-  const { 
-    response: statsData,
-    fetchStats,
-      loading,
-    error,
-  } = useProductStats();
+  const { response: statsData, fetchStats, loading, error } = useProductStats();
 
   useEffect(() => {
     fetchStats();
@@ -57,15 +52,15 @@ export function ProductStats() {
           </Card>
         ))}
       </div>
-    )
+    );
   }
 
   if (error) {
     return (
       <div className="col-span-3 text-center py-8">
         <p className="text-red-600 mb-4">{error}</p>
-        <Button 
-          variant="light" 
+        <Button
+          variant="light"
           onPress={handleRefresh}
           startContent={<RefreshCw size={16} />}
           isLoading={loading}
@@ -73,14 +68,14 @@ export function ProductStats() {
           Reintentar
         </Button>
       </div>
-    )
+    );
   }
 
   return (
     <div className="relative">
-      <Button 
-        isIconOnly 
-        variant="light" 
+      <Button
+        isIconOnly
+        variant="light"
         onPress={handleRefresh}
         isLoading={loading}
         className="absolute right-0 -top-10"
@@ -116,5 +111,5 @@ export function ProductStats() {
         ))}
       </div>
     </div>
-  )
+  );
 }
