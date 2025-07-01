@@ -324,13 +324,11 @@ export const useDeleteProduct = () => {
       setError(null);
       const result = await deleteProductService(productId);
       setResponse(result);
-      return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
       setResponse(null);
       // @ts-ignore
       setError(err?.response?.data || { message: errorMessage });
-      throw err;
     } finally {
       setIsLoading(false);
     }

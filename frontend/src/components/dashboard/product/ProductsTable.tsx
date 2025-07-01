@@ -28,29 +28,31 @@ interface ProductsTableProps {
     onItemsPerPageChange: (limit: number) => void;
     isLoading?: boolean;
     handleEdit: (product: Product) => void;
+    handleDelete: (id: number) => void;
+    isAdmin?: boolean;
 }
 
 export function ProductsTable({ 
     products = [], 
-    pagination, 
-    currentPage, 
-    itemsPerPage, 
-    onPageChange, 
+    pagination,
+    currentPage,
+    itemsPerPage,
+    onPageChange,
     onItemsPerPageChange,
     isLoading = false,
-    handleEdit
+    handleEdit,
+    handleDelete,
+    isAdmin
 }: ProductsTableProps) {
     const getStatusColor = (isActive: boolean) => {
         return isActive ? "success" : "danger";
     }
 
     const getStockColor = (stock: number) => {
-        if (stock === 0) return "danger";
+        if (stock <= 5) return "danger";
         if (stock < 20) return "warning";
         return "success";
     }
-
-
 
     return (
         <Card>
@@ -95,14 +97,19 @@ export function ProductsTable({
                                                     <DropdownItem key="edit" startContent={<Edit size={16} />} onPress={() => handleEdit(product)}>
                                                         Editar
                                                     </DropdownItem>
-                                                    <DropdownItem
-                                                        key="delete"
-                                                        startContent={<Trash2 size={16} />}
-                                                        className="text-danger"
-                                                        color="danger"
-                                                    >
-                                                        Eliminar
-                                                    </DropdownItem>
+                                                    {
+                                                        isAdmin ? (
+                                                            <DropdownItem
+                                                                key="delete"
+                                                                startContent={<Trash2 size={16} />}
+                                                                className="text-danger"
+                                                                color="danger"
+                                                                onPress={() => handleDelete(product.id)}
+                                                            >
+                                                                Eliminar
+                                                            </DropdownItem>
+                                                        ) : <></>
+                                                    }
                                                 </DropdownMenu>
                                             </Dropdown>
                                         </div>
@@ -153,14 +160,19 @@ export function ProductsTable({
                                                     <DropdownItem key="edit" startContent={<Edit size={16} />} onPress={() => handleEdit(product)}>
                                                         Editar
                                                     </DropdownItem>
-                                                    <DropdownItem
-                                                        key="delete"
-                                                        startContent={<Trash2 size={16} />}
-                                                        className="text-danger"
-                                                        color="danger"
-                                                    >
-                                                        Eliminar
-                                                    </DropdownItem>
+                                                    {
+                                                        isAdmin ? (
+                                                            <DropdownItem
+                                                                key="delete"
+                                                                startContent={<Trash2 size={16} />}
+                                                                className="text-danger"
+                                                                color="danger"
+                                                                onPress={() => handleDelete(product.id)}
+                                                            >
+                                                                Eliminar
+                                                            </DropdownItem>
+                                                        ) : <></>
+                                                    }
                                                 </DropdownMenu>
                                             </Dropdown>
                                         </div>

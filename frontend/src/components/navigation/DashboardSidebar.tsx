@@ -144,7 +144,7 @@ export function DashboardSidebar() {
       </nav>
 
       <div className="p-4 border-t border-gray-200">
-        <LogoutBtn isMobile={isMobile} isCollapsed={isCollapsed} />
+        <LogoutBtn isCollapsed={isCollapsed} />
       </div>
     </div>
   )

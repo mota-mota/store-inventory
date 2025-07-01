@@ -6,7 +6,7 @@ import {LogOut} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {useState} from "react";
 
-const LogoutBtn = ({ isCollapsed }: { isCollapsed: boolean}) => {
+const LogoutBtn = ({ isCollapsed }: { isCollapsed?: boolean}) => {
     const router = useRouter();
     const { logout } = useAuth();
     const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ const LogoutBtn = ({ isCollapsed }: { isCollapsed: boolean}) => {
         <Button
             variant="light"
             startContent={<LogOut size={20} />}
-            onPress={logout}
+            onPress={handleLogout}
             className={`${!isCollapsed && 'w-full'} justify-start text-gray-700 hover:text-red-600`}
             disabled={loading}
         >

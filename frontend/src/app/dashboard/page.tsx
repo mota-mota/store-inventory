@@ -2,16 +2,11 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { QuickActions } from "@/components/dashboard/QuickActions"
 import {ProductStats} from "@/components/dashboard/product/ProductStats";
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   useEffect(() => {
     if (!loading && !user) {

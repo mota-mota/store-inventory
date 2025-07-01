@@ -24,7 +24,7 @@ export function LoginForm() {
     setError("")
     try {
       const user = await loginUser(email, password)
-      login(user) // Actualiza el contexto y redirige
+      login(user)
     } catch (err: any) {
       setError(err.message)
     } finally {

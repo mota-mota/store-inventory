@@ -110,7 +110,7 @@ export function CreateProduct({isOpen, onOpenChange, product, callback}: CreateP
             if(createError) {
                 addToast({
                     title: "Error",
-                    description: createError?.message || "Error al crear el producto",
+                    description: createError || "Error al crear el producto",
                     color: "danger",
                     variant: "flat"
                 });

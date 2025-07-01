@@ -9,8 +9,11 @@ import {ProductStats} from "@/components/dashboard/product/ProductStats";
 import {ProductFilters} from "@/components/dashboard/product/ProductFilters";
 import {GetProductsParams, Pagination, Product, ProductStatus} from "@/services/products/types";
 import {CreateProduct} from "@/components/dashboard/product/CreateProduct";
+import DeleteProductConfirmation from "@/components/dashboard/product/DeleteProductConfirmation";
+import {useAuth} from "@/context/AuthContext";
 
 export default function ProductsPage() {
+  const { isAdmin } = useAuth();
   const [pagination, setPagination] = useState<Pagination>({
     totalItems: 0,
     totalPages: 0,
@@ -36,7 +39,6 @@ export default function ProductsPage() {
     const {page, limit, ...filters} = params;
     const data = await fetchProducts({
       ...params,
-      status: params.status === 'all' ? undefined : params.status
     });
     setPagination(data.pagination);
     setFilters({
@@ -63,6 +65,7 @@ export default function ProductsPage() {
   }, [currentProduct, isOpen]);
 
   const [id, setId] = useState<number | null>(null);
+  const {isOpen: isConfirmOpen, onOpen: onOpenConfirm, onOpenChange: onOpenConfirmChange} = useDisclosure();
 
   return (
     <div className="space-y-6">
@@ -101,13 +104,13 @@ export default function ProductsPage() {
           if (!isOpen) {
             setCurrentProduct(null);
           }
-          onOpenChange(isOpen);
+          onOpenChange();
         }}
         product={currentProduct}
         callback={(product) => {
           setCurrentProduct(product);
           if (!product) {
-            onOpenChange(false);
+            onOpenChange();
           }
         }}
       />
@@ -162,11 +165,31 @@ export default function ProductsPage() {
                 handleEdit={(product: Product) => {
                   setCurrentProduct(product);
                 }}
+                handleDelete={(id: number) => {
+                  setId(id);
+
+                  onOpenConfirm();
+                }}
+                isAdmin={isAdmin}
               />
             </>
           )}
         </CardBody>
       </Card>
+      <DeleteProductConfirmation
+          isOpen={isConfirmOpen}
+          onOpenChange={onOpenConfirmChange}
+          id={id}
+          onSuccess={() => {
+            handleFetchProducts({
+              ...filters,
+              page: 1,
+              limit: pagination.itemsPerPage,
+            });
+            setId(null);
+            onOpenConfirmChange();
+          }}
+      />
     </div>
   )
 }
