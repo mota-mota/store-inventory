@@ -2,8 +2,10 @@ const { User, Role } = require('../models');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '8h';
+const JWT_COOKIE_EXPIRES = parseInt(process.env.JWT_COOKIE_EXPIRES) || 8 * 60 * 60 * 1000; // 8 horas en milisegundos
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const tokenBlacklist = new Set();
 
@@ -59,16 +61,25 @@ const register = async (req, res) => {
     });
 
     const token = generateToken(newUser);
-
     const userResponse = newUser.get({ plain: true });
     delete userResponse.password;
+
+    // Configura la cookie httpOnly
+    const cookieOptions = {
+      expires: new Date(Date.now() + JWT_COOKIE_EXPIRES),
+      httpOnly: true,
+      secure: NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/'
+    };
+
+    res.cookie('jwt', token, cookieOptions);
 
     res.status(201).json({
       status: true,
       message: 'Usuario registrado exitosamente',
       data: {
-        user: userResponse,
-        token
+        user: userResponse
       }
     });
   } catch (error) {
@@ -122,15 +133,24 @@ const login = async (req, res) => {
     }
 
     const token = generateToken(user);
-
     const userResponse = user.get({ plain: true });
     delete userResponse.password;
+
+    // Configura la cookie httpOnly
+    const cookieOptions = {
+      expires: new Date(Date.now() + JWT_COOKIE_EXPIRES),
+      httpOnly: true,
+      secure: NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/'
+    };
+
+    res.cookie('jwt', token, cookieOptions);
 
     res.json({
       status: true,
       data: {
-        user: userResponse,
-        token
+        user: userResponse
       }
     });
   } catch (error) {
@@ -148,8 +168,16 @@ const login = async (req, res) => {
  */
 const logout = (req, res) => {
   try {
+    // Limpia la cookie
+    res.clearCookie('jwt', {
+      httpOnly: true,
+      secure: NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/'
+    });
+
+    // También manejamos el token del header por si acaso
     const authHeader = req.headers.authorization;
-    
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.split(' ')[1];
       tokenBlacklist.add(token);
