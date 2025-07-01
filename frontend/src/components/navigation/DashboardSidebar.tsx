@@ -11,7 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Menu,
-  X,
+  X, CircleUserRound,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -88,7 +88,7 @@ export function DashboardSidebar() {
 
       <div className="p-4">
         <div className="flex items-center space-x-3">
-          <Avatar src="/placeholder.svg?height=40&width=40" size="md" className="flex-shrink-0" />
+          <CircleUserRound size={40} color={"#969696"} cursor={"pointer"} />
           <AnimatePresence>
             {(!isCollapsed || isMobile) && (
               <motion.div

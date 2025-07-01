@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = (user: User) => {
     setUser(user);
-    router.push("/dashboard");
+    //router.push("/dashboard");
   };
 
   const logout = async () => {
@@ -49,7 +49,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if(!loading) {
-      console.log({user})
       setIsAdmin(user?.role?.name === "admin");
     }
   }, [loading, user]);

@@ -102,9 +102,8 @@ export function CreateProduct({isOpen, onOpenChange, product, callback}: CreateP
             };
             success();
         }
-    }, [updateLoading, updateResponse]); // Removemos onOpenChange y callback de las dependencias
+    }, [updateLoading, updateResponse]);
 
-    // Mostrar los errores de creación
     useEffect(() => {
         if(!createLoading) {
             if(createError) {
@@ -132,7 +131,7 @@ export function CreateProduct({isOpen, onOpenChange, product, callback}: CreateP
             };
             success();
         }
-    }, [createLoading, createResponse]); // No necesitamos onOpenChange ni callback en las dependencias
+    }, [createLoading, createResponse]);
 
     return (
         <>

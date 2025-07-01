@@ -1,6 +1,6 @@
 "use client"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@heroui/react"
-import { Settings, User, LogOut } from "lucide-react"
+import {Settings, User, LogOut, CircleUserRound} from "lucide-react"
 import LogoutBtn from "@/components/auth/Logout";
 
 export function DashboardHeader() {
@@ -14,7 +14,7 @@ export function DashboardHeader() {
         <div className="flex items-center space-x-2 lg:space-x-4">
           <Dropdown>
             <DropdownTrigger>
-              <Avatar src="/placeholder.svg?height=32&width=32" size="sm" className="cursor-pointer" />
+              <CircleUserRound size={32} color={"#969696"} cursor={"pointer"} />
             </DropdownTrigger>
             <DropdownMenu aria-label="User menu">
               {/*<DropdownItem key="profile" startContent={<User size={16} />}>

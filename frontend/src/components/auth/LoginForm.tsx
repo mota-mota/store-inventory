@@ -1,12 +1,13 @@
 "use client"
 
-import type React from "react"
+import React, {useEffect} from "react"
 import { useState } from "react"
-import { Button, Input, Checkbox } from "@heroui/react"
+import { Button, Input } from "@heroui/react"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import { motion } from "framer-motion"
 import { useAuth } from "@/context/AuthContext"
 import { loginUser } from "@/app/login/actions"
+import {useRouter} from "next/navigation";
 
 export function LoginForm() {
   const [isVisible, setIsVisible] = useState(false)
@@ -14,7 +15,8 @@ export function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  const { login } = useAuth()
+  const { user, login } = useAuth()
+  const router = useRouter();
 
   const toggleVisibility = () => setIsVisible(!isVisible)
 
@@ -31,6 +33,12 @@ export function LoginForm() {
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    if(user && user.id) {
+      router.push("/dashboard");
+    }
+  }, [user]);
 
   return (
     <motion.form

@@ -1,4 +1,12 @@
-import {ApiResponse, CreateProductData, GetProductsParams, InventoryStats, Product, ProductsResponse} from "./types";
+import {
+  ApiResponse,
+  CreateProductData,
+  GetProductsParams,
+  InventoryStats,
+  PaginationInfo,
+  Product,
+  ProductsResponse
+} from "./types";
 import {useCallback, useState} from "react";
 import axios from "axios";
 
@@ -98,6 +106,7 @@ export const useProductStats = () => {
 export const useGetProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>();
   const [error, setError] = useState<string | null>(null);
 
   const fetchProducts = useCallback(async (customParams?: GetProductsParams) => {
@@ -108,6 +117,7 @@ export const useGetProducts = () => {
       const data = await getProducts(customParams);
       
       setProducts(data.products);
+      setPaginationInfo(data.pagination);
       
       return data;
     } catch (err) {
@@ -125,6 +135,7 @@ export const useGetProducts = () => {
     loading: isLoading,
     error,
     fetchProducts,
+    paginationInfo
   };
 };
 

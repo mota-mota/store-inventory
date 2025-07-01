@@ -29,6 +29,15 @@ export interface Product {
   category: Category;
 }
 
+export interface PaginationInfo {
+  currentPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  itemsPerPage: number;
+  totalItems: number;
+  totalPages: number;
+}
+
 export interface Pagination {
   totalItems: number;
   totalPages: number;
@@ -52,6 +61,7 @@ export interface GetProductsParams {
   categoryId?: number;
   isActive?: boolean;
   status?: ProductStatus;
+  inStock?: boolean;
 }
 
 export interface CreateProductData {
