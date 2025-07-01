@@ -1,0 +1,13 @@
+.login-center {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(var(--brand-primary), 0.05),
+    #fff 50%,
+    rgba(var(--brand-secondary), 0.05)
+  );
+}

@@ -6,11 +6,21 @@ const { Op } = require('sequelize');
  */
 const getProducts = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const offset = (page - 1) * limit;
-    const search = req.query.search || '';
-    const { minPrice, maxPrice, category, inStock } = req.query;
+    const { 
+      minPrice, 
+      maxPrice, 
+      category, 
+      inStock, 
+      includeLowStock,
+      search = '',
+      page = '1', 
+      limit = '10',
+      status = 'active' // 'active', 'inactive', 'deleted', or 'all'
+    } = req.query;
+
+    const pageNum = parseInt(page) || 1;
+    const limitNum = parseInt(limit) || 10;
+    const offset = (pageNum - 1) * limitNum;
 
     const whereClause = {};
 
@@ -31,15 +41,17 @@ const getProducts = async (req, res) => {
       whereClause.categoryId = parseInt(category);
     }
 
-    if (inStock === 'true') {
-      whereClause.quantity = { [Op.gt]: 0 };
-    } else if (inStock === 'false') {
-      whereClause.quantity = { [Op.eq]: 0 };
+    if(inStock !== undefined) {
+      if (inStock === 'true') {
+        whereClause.quantity = { [Op.gt]: 0 };
+      } else if (inStock === 'false') {
+        whereClause.quantity = { [Op.eq]: 0 };
+      } else if (includeLowStock !== 'true') {
+        whereClause.quantity = { [Op.gt]: 5 };
+      }
     }
 
-    whereClause.isActive = true;
-
-    const { count, rows: products } = await Product.findAndCountAll({
+    const queryOptions = {
       where: whereClause,
       include: [
         {
@@ -49,12 +61,34 @@ const getProducts = async (req, res) => {
           paranoid: false
         }
       ],
-      limit,
+      limit: limitNum,
       offset,
-      order: [['name', 'ASC']]
-    });
+      order: [
+        ['createdAt', 'DESC'],
+        ['name', 'ASC']
+      ]
+    };
 
-    const totalPages = Math.ceil(count / limit);
+    let query;
+    if (status === 'all') {
+      query = Product.unscoped();
+      delete whereClause.isActive;
+    } else if (status === 'deleted') {
+      query = Product.unscoped();
+      whereClause.deletedAt = { [Op.ne]: null };
+    } else if (status === 'inactive') {
+      query = Product.unscoped();
+      whereClause.isActive = false;
+      whereClause.deletedAt = null;
+    } else {
+      query = Product;
+      whereClause.isActive = true;
+      whereClause.deletedAt = null;
+    }
+
+    const { count, rows: products } = await query.findAndCountAll(queryOptions);
+
+    const totalPages = Math.ceil(count / limitNum);
 
     res.json({
       status: true,
@@ -64,10 +98,10 @@ const getProducts = async (req, res) => {
         pagination: {
           totalItems: count,
           totalPages,
-          currentPage: page,
-          itemsPerPage: limit,
-          hasNextPage: page < totalPages,
-          hasPreviousPage: page > 1
+          currentPage: pageNum,
+          itemsPerPage: limitNum,
+          hasNextPage: pageNum < totalPages,
+          hasPreviousPage: pageNum > 1
         }
       }
     });
@@ -369,11 +403,52 @@ const restoreProduct = async (req, res) => {
   }
 };
 
+const getProductInventoryStats = async (req, res) => {
+  try {
+    // Contar productos activos (isActive = 1)
+    const activeProducts = await Product.count({
+      where: {
+        isActive: 1
+      }
+    });
+
+    // Contar productos con bajo stock (solo activos)
+    const lowStockCount = await Product.count({
+      where: {
+        quantity: { [Op.lt]: 5 },
+        isActive: 1
+      }
+    });
+
+    // Contar total de productos (incluyendo inactivos y eliminados)
+    const totalProducts = await Product.unscoped().count();
+
+    res.json({
+      status: true,
+      message: 'Estadísticas de inventario obtenidas exitosamente',
+      data: {
+        lowStockCount,
+        totalProducts,
+        activeProducts,
+        inactiveProducts: totalProducts - activeProducts
+      }
+    });
+  } catch (error) {
+    console.error('Error al obtener estadísticas de inventario:', error);
+    res.status(500).json({
+      status: false,
+      message: 'Error al obtener estadísticas de inventario',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
-  restoreProduct
+  restoreProduct,
+  getProductInventoryStats
 };

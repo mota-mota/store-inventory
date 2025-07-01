@@ -16,8 +16,8 @@ module.exports = {
     // Crear usuarios
     const users = [
       {
-        username: 'admin',
-        email: 'admin@example.com',
+        username: 'Admin',
+        email: 'admin@cemaco.com',
         // Contraseña: Admin123!
         password: await bcrypt.hash('Admin123!', 10),
         roleId: adminRole.id,
@@ -26,8 +26,8 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        username: 'colab',
-        email: 'colab@example.com',
+        username: 'Colab',
+        email: 'colab@cemaco.com',
         // Contraseña: Colab123!
         password: await bcrypt.hash('Colab123!', 10),
         roleId: collaboratorRole.id,
