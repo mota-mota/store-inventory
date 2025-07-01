@@ -1,15 +1,19 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 /**
  * Middleware para verificar el token JWT
  */
 const authenticateToken = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1];
+    // Intentar obtener el token de la cookie o del encabezado de autorización
+    let token = req.cookies?.jwt;
+    
+    if (!token && req.headers.authorization?.startsWith('Bearer ')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
 
     if (!token) {
       return res.status(401).json({
@@ -89,7 +93,30 @@ const authorizedRoles = (roles = []) => {
   };
 };
 
+// Middleware para verificar si el token está en la lista negra
+const checkTokenRevoked = (req, res, next) => {
+  let token = req.cookies?.jwt;
+  
+  if (!token && req.headers.authorization?.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (token && tokenBlacklist.has(token)) {
+    return res.status(401).json({
+      status: false,
+      message: 'Token revocado. Por favor inicie sesión nuevamente.'
+    });
+  }
+  
+  next();
+};
+
+// Almacén en memoria para tokens revocados (en producción usa Redis o similar)
+const tokenBlacklist = new Set();
+
 module.exports = {
   authenticateToken,
-  authorizedRoles
+  authorizedRoles,
+  checkTokenRevoked,
+  tokenBlacklist
 };

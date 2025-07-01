@@ -5,15 +5,19 @@ const { authenticateToken, authorizedRoles } = require('../middlewares/auth.midd
 const validatorMiddleware = require('../middlewares/validatorMiddleware');
 const { 
   createProductSchema, 
-  updateProductSchema, 
-  getProductsQuerySchema 
+  updateProductSchema,
 } = require('../utils/schemas.util');
 
 router.get(
   '/',
-  authenticateToken,
-    authorizedRoles(['admin', 'collaborator']),
   productController.getProducts
+);
+
+router.get(
+    '/inventory-stats',
+    authenticateToken,
+    authorizedRoles(['admin', 'collaborator']),
+    productController.getProductInventoryStats
 );
 
 router.get(

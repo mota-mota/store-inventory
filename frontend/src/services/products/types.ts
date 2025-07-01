@@ -82,7 +82,6 @@ export interface ValidationError {
   };
 }
 
-// Add this interface near the top of the file with other types
 export interface ApiResponse<T> {
   status: boolean;
   message: string;

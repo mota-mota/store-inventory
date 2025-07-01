@@ -139,7 +139,6 @@ export const useGetProducts = () => {
   };
 };
 
-// Update the createProductService function
 const createProductService = async (
   productData: CreateProductData
 ): Promise<ApiResponse<Product>> => {
@@ -183,7 +182,6 @@ const createProductService = async (
   }
 };
 
-// Update the useCreateProduct hook
 export const useCreateProduct = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<ApiResponse<Product> | null>(null);
@@ -260,7 +258,6 @@ const updateProductService = async (
   }
 };
 
-// Hook for updating a product
 export const useUpdateProduct = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<ApiResponse<Product> | null>(null);
@@ -292,7 +289,6 @@ export const useUpdateProduct = () => {
   };
 };
 
-// Delete product service
 const deleteProductService = async (productId: number): Promise<ApiResponse<null>> => {
   try {
     const response = await axios.delete<ApiResponse<null>>(
@@ -326,7 +322,6 @@ const deleteProductService = async (productId: number): Promise<ApiResponse<null
   }
 };
 
-// Hook for deleting a product
 export const useDeleteProduct = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<ApiResponse<null> | null>(null);
