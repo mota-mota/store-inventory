@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Button, Card, CardBody, CardFooter } from "@heroui/react";
 import { ShoppingCart, Star, ShoppingBasket } from "lucide-react";

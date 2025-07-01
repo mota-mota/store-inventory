@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Home, ShoppingCart, User, Menu, ChevronDown, Search } from 'lucide-react';
-import { Button, Input, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react';
+import { User, Search } from 'lucide-react';
+import { Button, Input } from '@heroui/react';
 import Image from "next/image";
 
 export const StoreHeader = () => {
@@ -9,10 +9,10 @@ export const StoreHeader = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center h-16">
-            <Image 
-              src="/CemacoLogo.png" 
-              alt="Cemaco Logo" 
-              width={120} 
+            <Image
+              src="/CemacoLogo.png"
+              alt="Cemaco Logo"
+              width={120}
               height={64}
               className="max-w-35"
               priority

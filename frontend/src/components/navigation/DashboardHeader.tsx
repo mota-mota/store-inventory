@@ -1,6 +1,6 @@
 "use client"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@heroui/react"
-import {Settings, User, LogOut, CircleUserRound} from "lucide-react"
+import {CircleUserRound} from "lucide-react"
 import LogoutBtn from "@/components/auth/Logout";
 
 export function DashboardHeader() {

@@ -1,13 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button, Avatar, Divider } from "@heroui/react"
+import { Button, Divider } from "@heroui/react"
 import {
   LayoutDashboard,
   Package,
   Users,
   ShoppingBag,
-  LogOut,
   ChevronLeft,
   ChevronRight,
   Menu,

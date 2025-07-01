@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Card, CardBody} from "@heroui/react";
+import {Button} from "@heroui/react";
 
 import { StoreHeader } from '@/components/store/navigation/StoreHeader';
 import { StoreFooter } from '@/components/store/navigation/StoreFooter';
